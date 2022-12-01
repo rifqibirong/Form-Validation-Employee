@@ -43,6 +43,11 @@
   margin-bottom: -10px;
 }
 
+.wrapper .form p::after {
+  content: '*';
+  color: red;
+}
+
 .wrapper .form .form2 {
   margin-top: 20px;
 }
