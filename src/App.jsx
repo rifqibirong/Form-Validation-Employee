@@ -30,78 +30,80 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePhone = (event) => {
-    // console.log(event);
     setPhone(event.target.value);
   };
 
   const handleIdCard = (event) => {
-    // console.log(event);
     setIdCard(event.target.value);
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
     setIsLoading(true);
+
     const phones = formatPhoneNumberToIntlNumber(phone);
     if (phones === "" && idCard === "") {
       swal("Error", "Data tidak boleh kososng", "error");
     } else {
       axios
         .post(
-          "https://t1n12x6qn0.execute-api.ap-southeast-1.amazonaws.com/Prod/employee",
+          "https://5ju5kuxwla.execute-api.ap-southeast-1.amazonaws.com/Prod/employee",
           { employeeId: idCard.toUpperCase(), phone: phones }
         )
         .then((res) => {
           console.log(res.data);
-          if (res.data.code === 1000) {
-            setPhone("");
-            setIdCard("");
-            swal(
-              "Success",
-              "Selamat id karyawan anda sudah terdaftar mendapatkan cashback",
-              "success"
-            );
-          } else if (res.data.code === 2001) {
-            swal(
-              "Error",
-              " Id karyawan anda belum terdaftar untuk mendapatkan cashback (hubungi HRD / Tim IT Development )",
-              "error"
-            );
-          } else if (res.data.code === 2003) {
-            swal(
-              "Error",
-              "Daftarkan nomor telepon anda pada aplikasi Daily Apps",
-              "error"
-            );
-          } else if (res.data.code === 2004) {
-            swal(
-              "Error",
-              "Id karyawan sudah terdaftar pada aplikasi Daily Apps",
-              "error"
-            );
-          } else if (res.data.code === 2005) {
-            swal(
-              "Error",
-              "Daftarkan nomor telepon anda pada aplikasi Daily Apps",
-              "error"
-            );
-          } else if (res.data.code === 2006) {
-            swal(
-              "Error",
-              "Nomor telepon sudah terdaftar sebagai karyawan pada aplikasi Daily Apps",
-              "error"
-            );
-          } else {
-            swal(
-              "Error",
-              `Terjadi kesalahan pada sistem dengan kode : ${res.data.code}`,
-              "error"
-            );
-          }
-          setIsLoading(false);
+          if (res.data.code) {
+            setIsLoading(false);
+
+            if (res.data.code === 1000) {
+              setPhone("");
+              setIdCard("");
+              swal(
+                "Success",
+                "Selamat id karyawan anda sudah terdaftar mendapatkan cashback",
+                "success"
+              );
+            } else if (res.data.code === 2001) {
+              swal(
+                "Error",
+                " Id karyawan anda belum terdaftar untuk mendapatkan cashback (hubungi HRD / Tim IT Development )",
+                "error"
+              );
+            } else if (res.data.code === 2003) {
+              swal(
+                "Error",
+                "Daftarkan nomor telepon anda pada aplikasi Daily Apps",
+                "error"
+              );
+            } else if (res.data.code === 2004) {
+              swal(
+                "Error",
+                "Id karyawan sudah terdaftar pada aplikasi Daily Apps",
+                "error"
+              );
+            } else if (res.data.code === 2005) {
+              swal(
+                "Error",
+                "Daftarkan nomor telepon anda pada aplikasi Daily Apps",
+                "error"
+              );
+            } else if (res.data.code === 2006) {
+              swal(
+                "Error",
+                "Nomor telepon sudah terdaftar sebagai karyawan pada aplikasi Daily Apps",
+                "error"
+              );
+            } else {
+              swal(
+                "Error",
+                `Terjadi kesalahan pada sistem dengan kode : ${res.data.code}`,
+                "error"
+              );
+            }
+          } else setIsLoading(false);
         });
     }
-    setIsLoading(false);
+    setTimeout(() => setIsLoading(false), 500);
   };
 
   return (
