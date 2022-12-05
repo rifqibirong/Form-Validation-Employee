@@ -9,6 +9,7 @@ body,html,:root {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  overflow: hidden;
 }
 
 @media (max-width: 480px ) {
